@@ -6,23 +6,11 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 01:54:03 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/06/24 02:39:15 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/05 16:25:19 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-// char    *ft_skipn(char *str)
-// {
-//     int i;
-//     char    *n;
-
-//     i = 2;
-//     while(str[i] == ' ')
-//         i++;
-//     while(n)
-//     return (n);
-// }
 
 char	*ft_skip(char *s1)
 {
@@ -38,15 +26,11 @@ char	*ft_skip(char *s1)
 	if (!ptr)
 		return (NULL);
 	i = 2;
-    while(s1[i] == ' ' || s1[i] == '\t')
-        i++;
-	x = 0;
-	while (i < len )
-	{
-		ptr[x] = s1[i];
+	while (s1[i] == ' ' || s1[i] == '\t')
 		i++;
-        x++;
-	}
+	x = 0;
+	while (i < len)
+		ptr[x++] = s1[i++];
 	ptr[x] = '\0';
 	s1 = ptr;
 	return (s1);

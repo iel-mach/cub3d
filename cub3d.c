@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:35 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/04 20:46:43 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/06 07:58:51 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,22 @@ void	ft_drawmap(t_cub *cub)
 char	**ft_split_file(char *str)
 {
 	char	**map;
+	char	*s;
+	char	*st;
 	int		i;
 
 	i = 0;
-	// while (str[i])
-	// {
-	// 	if (str[i] == '1' && str[i + 1] == '\n' && str[i + 2] == '\n')
-	// 	{
-	// 		printf("Error: check map!\n");
-	// 		exit(1);
-	// 	}
-	// 	i++;
-	// }
+	while (str[i] && str[i + 1])
+	{
+		if (str[i] == '\n' && str[i + 1] == '\n')
+		{
+			st = ft_substr(str, 0, i + 1);
+			s = ft_substr(str, i + 1, ft_strlen(str) - i);
+			str = ft_strjoin(st, " ");
+			str = ft_strjoin(str, s);
+		}
+		i++;
+	}
 	map = ft_split(str, '\n');
 	free(str);
 	return (map);
@@ -100,12 +104,8 @@ int	main(int ac, char **av)
 		}
 		ft_checkfile(map);
 		cub = ft_parse(map);
+		ft_checkvar(cub);
 		ft_checkmap(cub->map);
-		if (!ft_checkvar(cub))
-		{
-			printf("Error: check\n");
-			return (1);
-		}
 		if (!ft_splitit(cub))
 		{
 			printf("Error: check C or F\n");

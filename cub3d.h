@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:52 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/04 17:20:56 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/06 10:18:38 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,7 @@ typedef struct s_data {
 	int		endian;
 }	t_data;
 
-typedef struct img
-{
-	char	**map;
-	void	*mlx;
-	void	*mlx_win;
-	t_data	data;
-	t_cub	cub;
-	int		whidth;
-	int		height;
-	int		i;
-	int		j;
-	int		x;
-	int		y;
-	float	a;
-	int		r;
-	float	t;
-	float	f;
-}	t_img;
-typedef struct f
+typedef struct color
 {
 	int	i;
 	int	a;
@@ -65,7 +47,48 @@ typedef struct f
 	int	c;
 	int	j;
 	int	k;
-}	t_f;
+	int	fdn;
+	int	fds;
+	int	fdw;
+	int	fde;
+}	t_color;
+
+typedef struct ddi
+{
+	int		x0;
+	int		y0;
+	int		x1;
+	int		y1;
+	int		dx;
+	int		dy;
+	int		steps;
+	float	xinc;
+	float	yinc;
+	float	x;
+	float	y;
+}	t_ddi;
+
+typedef struct img
+{
+	char	**map;
+	void	*mlx;
+	void	*mlx_win;
+	t_data	data;
+	t_cub	cub;
+	t_color	color;
+	int		whidth;
+	int		height;
+	int		i;
+	int		j;
+	int		x;
+	int		y;
+	float	y0;
+	float	x0;
+	float	a;
+	int		r;
+	float	t;
+	float	f;
+}	t_img;
 
 typedef struct check
 {
@@ -96,8 +119,8 @@ char	*ft_skip(char *s1);
 char	*ft_strjoin1(char *s1, char *s2);
 int		ft_atoi(char *s);
 int		ft_splitit(t_cub *cub);
-int		ft_checkvar(t_cub *cub);
-void    ft_checkmap(char **map);
+void	ft_checkvar(t_cub *cub);
+void	ft_checkmap(char **map);
 t_cub	*ft_parse(char **map);
 int		ft_isdigit(int c);
 int		ft_skipspace(char *str);
@@ -107,8 +130,8 @@ char	*ft_getmap(char *str);
 void	ft_hooks(t_img img);
 int		ft_exit(void);
 int		ft_keyhook(int key, t_img *img);
-void	ft_dda(t_img *img, int X0, int Y0, int X1, int Y1);
+void	ft_dda(t_img *img, t_ddi *ddi);
 void	ft_rays(t_img *img);
-int ft_checkzero(int i, char *str, char *str1);
+int		ft_checkzero(int i, char *str, char *str1);
 
 #endif

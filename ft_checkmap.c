@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 17:14:14 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/05 07:33:37 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/05 12:03:33 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,14 @@ void	ft_checkmap(char **map)
 		j = -1;
 		while (map[i][++j])
 		{
-			ft_checkmap4(&t, map, i, j);
 			ft_checkmap2(map, i, j);
 			ft_checkmap3(map, i, j);
+			ft_checkmap4(&t, map, i, j);
 		}
 	}
 	if (t.no > 1 || t.ea > 1 || t.we > 1 || t.so > 1 || t.g > 1 || t.g == 0)
 	{
+		printf("%d\n", t.we);
 		printf("6Error: check map!\n");
 		exit(1);
 	}
