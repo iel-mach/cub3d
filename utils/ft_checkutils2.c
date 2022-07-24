@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 08:53:54 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/05 15:53:41 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/08 17:19:10 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_getmap(char *str)
 	int		fd;
 
 	fd = open(str, O_RDONLY);
-	if (fd == -1)
+	if (fd < 0)
 	{
 		printf("Error: cannot open map\n");
 		exit(1);

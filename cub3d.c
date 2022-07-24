@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:35 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/06 07:58:51 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/08 17:32:05 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	ft_init(t_img *img)
 			img->r = 180;
 		else if (img->map[img->i][img->j] == 'E')
 			img->r = 0;
-		img->t = img->j * 40;
-		img->f = img->i * 40;
+		img->x0 = img->j * 40;
+		img->y0 = img->i * 40;
 	}
 }
 
@@ -43,8 +43,9 @@ void	ft_drawmap(t_cub *cub)
 	img.i = -1;
 	img.map = cub->map;
 	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, 1920, 1080, "cub3d");
-	img.data.img = mlx_new_image(img.mlx, 1920, 1080);
+	ft_sheftcolor(&img, cub);
+	img.mlx_win = mlx_new_window(img.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+	img.data.img = mlx_new_image(img.mlx, WIN_WIDTH, WIN_HEIGHT);
 	img.data.addr = mlx_get_data_addr(img.data.img, &img.data.bits_per_pixel, \
 		&img.data.line_length, &img.data.endian);
 	while (img.map[++img.i])
@@ -104,13 +105,18 @@ int	main(int ac, char **av)
 		}
 		ft_checkfile(map);
 		cub = ft_parse(map);
-		ft_checkvar(cub);
-		ft_checkmap(cub->map);
-		if (!ft_splitit(cub))
+		if (!ft_checktexture(cub))
 		{
-			printf("Error: check C or F\n");
+			printf("check texture\n");
 			return (1);
 		}
+		ft_checkcomma(cub);
+		if (!ft_initcolor(cub))
+		{
+			printf("check color\n");
+			return (1);
+		}
+		ft_checkmap(cub->map);
 		ft_drawmap(cub);
 	}
 }

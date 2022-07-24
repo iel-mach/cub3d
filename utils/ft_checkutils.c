@@ -6,33 +6,33 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/25 08:49:40 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/05 16:21:35 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/07 17:07:38 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_splitit(t_cub *cub)
+int	ft_initcolor(t_cub *cub)
 {
-	t_color	color;
+	// t_color	color;
 	char	**splt;
 	int		i;
 
 	splt = ft_split(cub->f, ',');
-	color.a = ft_atoi(splt[0]);
-	color.b = ft_atoi(splt[1]);
-	color.c = ft_atoi(splt[2]);
-	if (color.a > 255 || color.b > 255 || color.c > 255)
+	cub->redf = ft_atoi(splt[0]);
+	cub->greenf = ft_atoi(splt[1]);
+	cub->bluef = ft_atoi(splt[2]);
+	if (cub->redf > 255 || cub->greenf > 255 || cub->bluef > 255)
 		return (0);
 	i = -1;
 	while (splt[++i])
 		free(splt[i]);
 	free(splt);
 	splt = ft_split(cub->c, ',');
-	color.i = ft_atoi(splt[0]);
-	color.j = ft_atoi(splt[1]);
-	color.k = ft_atoi(splt[2]);
-	if (color.i > 255 || color.j > 255 || color.k > 255)
+	cub->redc = ft_atoi(splt[0]);
+	cub->greenc = ft_atoi(splt[1]);
+	cub->bluec = ft_atoi(splt[2]);
+	if (cub->redc > 255 || cub->greenc > 255 || cub->bluec > 255)
 		return (0);
 	i = -1;
 	while (splt[++i])
@@ -41,17 +41,38 @@ int	ft_splitit(t_cub *cub)
 	return (1);
 }
 
-int	ft_checkcomma(char *s)
+int	ft_checkcomma2(char *f, char *c)
 {
-	int	i;
 	int	comma;
+	int	i;
 
 	i = 0;
-	comma = 1;
+	comma = 0;
+	while(c[i])
+	{
+		if (c[i] == ',')
+			comma++;
+		i++;
+	}
+	i = 0;
+	while(f[i])
+	{
+		if (f[i] == ',')
+			comma++;
+		i++;
+	}
+	if (comma != 4)
+		return (0);
+	return (1);
+}
+
+int	ft_checkcomma1(char *s)
+{
+	int	i;
+
+	i = 0;
 	while (s[i])
 	{
-		if (s[i] == ',')
-			comma++;
 		if (s[i] != ',' && !ft_isdigit(s[i]))
 			return (0);
 		if (s[0] == ',')
@@ -60,36 +81,46 @@ int	ft_checkcomma(char *s)
 			return (0);
 		i++;
 	}
-	if (comma != 3)
-		return (0);
 	return (1);
 }
 
-void	ft_checkvar(t_cub *cub)
+void	ft_checkcomma(t_cub *cub)
 {
-	t_color	color;
-	int		i;
-
-	i = 0;
-	if (!cub->n || !cub->s || !cub->w || !cub->e || !cub->f || !cub->c)
-	{
-		printf("Error: check your variable\n");
-		exit(1);
-	}
-	color.fdn = open(cub->n, O_RDONLY);
-	color.fds = open(cub->s, O_RDONLY);
-	color.fdw = open(cub->w, O_RDONLY);
-	color.fde = open(cub->e, O_RDONLY);
-	if (color.fdn < 0 || color.fds < 0 || color.fdw < 0 || color.fde < 0)
-	{
-		printf("Check the image file\n");
-		exit(1);
-	}
-	if (!ft_checkcomma(cub->c) || !ft_checkcomma(cub->f))
+	if (!ft_checkcomma1(cub->c) || !ft_checkcomma1(cub->f))
 	{
 		printf("check color\n");
 		exit (1);
 	}
+	if (!ft_checkcomma2(cub->c, cub->f))
+	{
+		printf("check color\n");
+		exit (1);
+	}
+}
+
+int	ft_checktexture(t_cub *cub)
+{
+	int	fd;
+
+	if (!cub->n || !cub->s || !cub->w || !cub->e || !cub->f || !cub->c)
+		return (0);
+	fd = open(cub->n, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	close(fd);
+	fd = open(cub->s, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	close(fd);
+	fd = open(cub->w, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	close(fd);
+	fd = open(cub->e, O_RDONLY);
+	if (fd < 0)
+		return (0);
+	close(fd);
+	return (1);
 }
 
 int	ft_checkzero(int i, char *str, char *str1)

@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:39:27 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/06 11:00:44 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/08 17:30:37 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	ft_rays(t_img *img)
 
 	img->y = -1;
 	img->a = -32;
-	while (++img->y < 1920)
+	while (++img->y < WIN_WIDTH)
 	{
-		ddi.x0 = img->t + 20;
-		ddi.y0 = img->f + 20;
-		ddi.x1 = img->t + (1000 * cos((img->r + img->a) * M_PI / 180));
-		ddi.y1 = img->f + (1000 * sin((img->r + img->a) * M_PI / 180));
+		ddi.x0 = img->x0 + 20;
+		ddi.y0 = img->y0 + 20;
+		ddi.x1 = img->x0 + (1000 * cos((img->r + img->a) * M_PI / 180));
+		ddi.y1 = img->y0 + (1000 * sin((img->r + img->a) * M_PI / 180));
 		ft_dda(img, &ddi);
-		img->a += (float)1 / (1920 / 64);
+		img->a += (float)1 / (WIN_WIDTH / 64);
 	}
 }
 
@@ -41,44 +41,48 @@ int	ft_keyhook(int key, t_img *img)
 {
 	if (key == 13)
 	{
-		img->y0 = (img->f + (sin(img->r * M_PI / 180) * 10)) / 40;
-		img->x0 = (img->t + (cos(img->r * M_PI / 180) * 10)) / 40;
-		if (img->map[(int)img->y0][(int)img->x0] != '0')
-			return (0);
-		img->f += sin(img->r * M_PI / 180) * 10;
-		img->t += cos(img->r * M_PI / 180) * 10;
+		img->y = (img->y0 + (sin(img->r * M_PI / 180) * 10)) / 40;
+		img->x = (img->x0 + (cos(img->r * M_PI / 180) * 10)) / 40;
+		if (img->map[(int)img->y][(int)img->x] == '0')
+		{
+			img->y0 += sin(img->r * M_PI / 180) * 10;
+			img->x0 += cos(img->r * M_PI / 180) * 10;
+		}
 	}
 	else if (key == 0)
 	{
-		img->y0 = (img->f - sin(((img->r + 90) % 360) * M_PI / 180) * 10) / 40;
-		img->x0 = (img->t - cos(((img->r + 90) % 360) * M_PI / 180) * 10) / 40;
-		if (img->map[(int)img->y0][(int)img->x0] != '0')
-			return (0);
-		img->t = img->x0 * 40;
-		img->f = img->y0 * 40;
+		img->y = (img->y0 - sin(((img->r + 90) % 360) * M_PI / 180) * 10) / 40;
+		img->x = (img->x0 - cos(((img->r + 90) % 360) * M_PI / 180) * 10) / 40;
+		if (img->map[(int)img->y][(int)img->x] == '0')
+		{
+			img->x0 = img->x * 40;
+			img->y0 = img->y * 40;
+		}
 	}
 	else if (key == 1)
 	{
-		img->y0 = (img->f - (sin(img->r * M_PI / 180) * 10)) / 40;
-		img->x0 = (img->t - (cos(img->r * M_PI / 180) * 10)) / 40;
-		if (img->map[(int)img->y0][(int)img->x0] != '0')
-			return (0);
-		img->t -= cos(img->r * M_PI / 180) * 10;
-		img->f -= sin(img->r * M_PI / 180) * 10;
+		img->y = (img->y0 - (sin(img->r * M_PI / 180) * 10)) / 40;
+		img->x = (img->x0 - (cos(img->r * M_PI / 180) * 10)) / 40;
+		if (img->map[(int)img->y][(int)img->x] == '0')
+		{
+			img->x0 -= cos(img->r * M_PI / 180) * 10;
+			img->y0 -= sin(img->r * M_PI / 180) * 10;
+		}
 	}
 	else if (key == 2)
 	{
-		img->y0 = (img->f + sin((img->r + 90) * M_PI / 180) * 10) / 40;
-		img->x0 = (img->t + cos((img->r + 90) * M_PI / 180) * 10) / 40;
-		if (img->map[(int)img->y0][(int)img->x0] != '0')
-			return (0);
-		img->t = (img->t + (cos(((img->r + 90) % 360) * M_PI / 180) * 10));
-		img->f = (img->f + (sin(((img->r + 90) % 360) * M_PI / 180) * 10));
+		img->y = (img->y0 + sin((img->r + 90) * M_PI / 180) * 10) / 40;
+		img->x = (img->x0 + cos((img->r + 90) * M_PI / 180) * 10) / 40;
+		if (img->map[(int)img->y][(int)img->x] == '0')
+		{
+			img->x0 = (img->x0 + (cos(((img->r + 90) % 360) * M_PI / 180) * 10));
+			img->y0 = (img->y0 + (sin(((img->r + 90) % 360) * M_PI / 180) * 10));
+		}
 	}
 	else if (key == 124)
-		img->r = (img->r + 2) % 360;
+		img->r += 5;
 	else if (key == 123)
-		img->r = (img->r + 358) % 360;
+		img->r -= 5 /*(img->r + 358) % 360*/;
 	else if (key == 53)
 		ft_exit();
 	if (img->r > 360)
