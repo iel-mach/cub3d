@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:52 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/08 17:37:23 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/25 14:41:35 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ typedef struct ddi
 
 typedef struct img
 {
+	int		whidth;
+    int		height;
+    void    *black;
+    void    *white;
+    void    *red;
+    void    *no9ta;
 	char	**map;
 	void	*mlx;
 	void	*mlx_win;
