@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchtaibi <tchtaibi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:39:27 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/26 02:20:11 by tchtaibi         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:58:50 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	ft_hooks(t_img img)
 {

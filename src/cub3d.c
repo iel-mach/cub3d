@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchtaibi <tchtaibi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:35 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/26 20:23:15 by tchtaibi         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:58:31 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 int	ft_exit(void)
 {

@@ -6,12 +6,12 @@
 #    By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/23 23:29:53 by iel-mach          #+#    #+#              #
-#    Updated: 2022/07/04 13:35:11 by iel-mach         ###   ########.fr        #
+#    Updated: 2022/07/28 19:59:03 by iel-mach         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
-SRC = *.c ./utils/*.c
+SRC = ./src/*.c ./utils/*.c
 FLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 MLX = -lmlx -framework OpenGL -framework AppKit
 CC = cc

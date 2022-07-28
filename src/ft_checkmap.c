@@ -6,11 +6,11 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 17:14:14 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/28 19:52:03 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:58:41 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	ft_checkmap2(char **map, int i, int j)
 {

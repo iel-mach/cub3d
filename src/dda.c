@@ -6,11 +6,11 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:43:16 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/28 19:44:13 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:58:35 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
