@@ -6,7 +6,7 @@
 /*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 13:43:16 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/08 17:39:06 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:44:13 by iel-mach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void	ft_wall(t_img *img, t_ddi *ddi)
 {
-	if (img->map[(int)(ddi->y / 40)][(int)((ddi->x - ddi->xinc)/ 40)] != '1')
+	if (img->map[(int)(ddi->y / SIZE_IMG)][(int)((ddi->x \
+	- ddi->xinc) / SIZE_IMG)] != '1')
 	{
 		if (ddi->xinc > 0)
 			ddi->dwall = 1;
 		else
 			ddi->dwall = 2;
 	}
-	else if (img->map[(int)((ddi->y - ddi->yinc) / 40)][(int)(ddi->x / 40)] != '1')
+	else if (img->map[(int)((ddi->y - ddi->yinc) / SIZE_IMG)] \
+	[(int)(ddi->x / SIZE_IMG)] != '1')
 	{
 		if (ddi->yinc > 0)
 			ddi->dwall = 3;
@@ -38,30 +40,34 @@ void	ft_wall(t_img *img, t_ddi *ddi)
 	}
 }
 
-
-int	ft_getcolor(t_ddi *ddi)
+int	ft_getcolor(t_ddi *ddi, t_img *img, int y, int x)
 {
+	char	*dst;
+
+	x %= SIZE_IMG;
+	y %= SIZE_IMG;
 	if (ddi->dwall == 1)
-		return (13762560);
+	{
+		dst = img->pics[0].addr + (y * img->pics[0].line_length + x * \
+		(img->pics[0].bits_per_pixel / 8));
+		return (*(int *)dst);
+	}
 	else if (ddi->dwall == 2)
-		return (3124639);
-	else if (ddi->dwall == 3)
-		return (3124480);
-	else if (ddi->dwall == 4)
-		return (15922176);
+	{
+		dst = img->pics[1].addr + (y * img->pics[1].line_length + x * \
+		(img->pics[1].bits_per_pixel / 8));
+		return (*(int *)dst);
+	}
+	else
+		return (ft_getcolor_norm(ddi, img, y, x));
 	return (0);
 }
-void	ft_sheftcolor(t_img *img, t_cub *cub)
-{
-	img->floor = (cub->redf << 16) + (cub->greenf << 8) + cub->bluef;
-	img->ceilling = (cub->redc << 16) + (cub->greenc << 8) + cub->bluec;
-}
+
 void	ft_draw(t_img *img, t_ddi *ddi)
 {
 	int		dakshi;
 	float	d;
 	float	ca;
-	int		j;
 
 	ft_wall(img, ddi);
 	d = sqrt(pow((ddi->y - ddi->y0), 2) + pow((ddi->x - ddi->x0), 2));
@@ -71,23 +77,8 @@ void	ft_draw(t_img *img, t_ddi *ddi)
 	if (ca > 2 * M_PI)
 		ca -= 2 * M_PI;
 	d = d * cos(ca);
-	dakshi = (40 * WIN_HEIGHT) / d;
-	j = -1;
-	while (++j < WIN_HEIGHT && img->y < WIN_WIDTH)
-	{
-		if (j < (int)(WIN_HEIGHT - dakshi) / 2)
-			my_mlx_pixel_put(&img->data, img->y, j, img->ceilling);
-		else if (j <= (int)((WIN_HEIGHT - dakshi) / 2) + dakshi)
-		{
-			if (ddi->dwall == 1 || ddi->dwall == 2)
-				ddi->c = fmod(img->y, 1);
-			else
-				ddi->c = fmod(j, 1);
-			my_mlx_pixel_put(&img->data, img->y, j, ft_getcolor(ddi));
-		}
-		else
-			my_mlx_pixel_put(&img->data, img->y, j, img->floor);
-	}
+	dakshi = (SIZE_IMG * WIN_HEIGHT) / d;
+	ft_draw_norm(img, ddi, dakshi);
 }
 
 void	ft_dda(t_img *img, t_ddi *ddi)
@@ -104,9 +95,10 @@ void	ft_dda(t_img *img, t_ddi *ddi)
 	ddi->y = ddi->y0;
 	while (1)
 	{
-		if (img->map[(int)(ddi->y / 40)][(int)(ddi->x / 40)] == '1' \
-			|| img->map[(int)(ddi->y / 40)][(int)(ddi->x / 40)] == ' ' \
-			|| !img->map[(int)(ddi->y / 40)][(int)(ddi->x / 40)])
+		if (img->map[(int)(ddi->y / SIZE_IMG)][(int)(ddi->x / SIZE_IMG)] == '1' \
+			|| img->map[(int)(ddi->y / SIZE_IMG)][(int)(ddi->x \
+			/ SIZE_IMG)] == ' ' \
+			|| !img->map[(int)(ddi->y / SIZE_IMG)][(int)(ddi->x / SIZE_IMG)])
 			break ;
 		ddi->x += ddi->xinc;
 		ddi->y += ddi->yinc;

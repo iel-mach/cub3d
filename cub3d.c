@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iel-mach <iel-mach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchtaibi <tchtaibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 23:11:35 by iel-mach          #+#    #+#             */
-/*   Updated: 2022/07/25 15:34:16 by iel-mach         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:23:15 by tchtaibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	ft_init(t_img *img)
 			img->r = 180;
 		else if (img->map[img->i][img->j] == 'E')
 			img->r = 0;
-		img->x0 = img->j * 40;
-		img->y0 = img->i * 40;
+		img->x0 = img->j * SIZE_IMG;
+		img->y0 = img->i * SIZE_IMG;
 	}
 }
 
@@ -48,6 +48,7 @@ void	ft_drawmap(t_cub *cub)
 	img.data.img = mlx_new_image(img.mlx, WIN_WIDTH, WIN_HEIGHT);
 	img.data.addr = mlx_get_data_addr(img.data.img, &img.data.bits_per_pixel, \
 		&img.data.line_length, &img.data.endian);
+	img = ft_img(img, cub);
 	while (img.map[++img.i])
 	{
 		img.j = -1;
@@ -89,33 +90,23 @@ int	main(int ac, char **av)
 	char	*str;
 
 	if (ac != 2)
-	{
-		printf("Error: Bad Arg\n");
-		return (1);
-	}
+		return (ft_return(("Error: Bad Arg")));
 	else
 	{
 		ft_checkex(av[1]);
 		str = ft_getmap(av[1]);
+		if (!last_char(str))
+			return (ft_return("ERROR"));
 		map = ft_split_file(str);
 		if (!map[0])
-		{
-			printf("Error: empty file!\n");
-			return (1);
-		}
+			return (ft_return("Error: empty file!"));
 		ft_checkfile(map);
 		cub = ft_parse(map);
 		if (!ft_checktexture(cub))
-		{
-			printf("check texture\n");
-			return (1);
-		}
+			return (ft_return("check texture"));
 		ft_checkcomma(cub);
 		if (!ft_initcolor(cub))
-		{
-			printf("check color\n");
-			return (1);
-		}
+			return (ft_return("check color"));
 		ft_checkmap(cub->map);
 		ft_drawmap(cub);
 	}
